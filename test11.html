@@ -1,10 +1,11 @@
-<button id="go">Open</button>
+<a id="link" href="https://drive.google.com">
+Right-click → Open in Split View
+</a>
 
 <script>
 go.onclick = async () => {
 
   // buka trusted site
-  window.open("https://drive.google.com");
 
   // delay kecil
   await new Promise(r => setTimeout(r, 500));
