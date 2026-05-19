@@ -1,0 +1,20 @@
+<button id="go">Open</button>
+
+<script>
+go.onclick = async () => {
+
+  // buka trusted site
+  window.open("https://drive.google.com");
+
+  // delay kecil
+  await new Promise(r => setTimeout(r, 500));
+
+  // coba trigger picker
+  try {
+    const h = await showOpenFilePicker();
+    console.log(h);
+  } catch(e) {
+    console.log(e.name);
+  }
+}
+</script>
