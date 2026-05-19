@@ -1,21 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
 <a id="link" href="https://drive.google.com">
-Right-click → Open in Split View
+Right Click → Open in Split Viewwwwwww
 </a>
 
 <script>
-go.onclick = async () => {
+const link = document.getElementById("link");
 
-  // buka trusted site
+link.addEventListener("contextmenu", () => {
 
-  // delay kecil
-  await new Promise(r => setTimeout(r, 500));
+  // delay async
+  setTimeout(async () => {
 
-  // coba trigger picker
-  try {
-    const h = await showOpenFilePicker();
-    console.log(h);
-  } catch(e) {
-    console.log(e.name);
-  }
-}
+    try {
+
+      const handles = await window.showOpenFilePicker();
+
+      console.log("Picker opened", handles);
+
+    } catch(e) {
+
+      console.log("Blocked:", e.name);
+
+    }
+
+  }, 500);
+
+});
 </script>
+
+</body>
+</html>
