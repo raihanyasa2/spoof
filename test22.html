@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<a id="link" href="https://drive.google.com">
+Right Click → Open in Split View
+</a>
+
+<script>
+const link = document.getElementById("link");
+
+link.addEventListener("contextmenu", () => {
+
+  requestAnimationFrame(async () => {
+
+    try {
+
+      const dir = await window.showDirectoryPicker();
+
+      console.log("Directory Picker Opened:", dir);
+
+    } catch(e) {
+
+      console.log("Blocked:", e.name);
+
+    }
+
+  });
+
+});
+</script>
+
+</body>
+</html>
