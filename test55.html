@@ -1,0 +1,85 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<body>
+<h1 id="newid" > Double Tap on Gmail Logo </h1>
+
+<video onclick="openFullscreenpotrait();" id="video" src="video.mp4" width="100" height="100"></video>
+
+
+<img id="img" height= "100%" width="100%">
+
+
+
+
+
+<script>
+  const video = document.getElementById("video");
+  const pipButton = document.getElementById("video");
+
+  pipButton.addEventListener("click", async () => {
+    try {
+      await video.requestPictureInPicture();
+    } catch (error) {
+      // Video failed to enter Picture-in-Picture mode.
+    }
+  });
+
+  video.addEventListener("enterpictureinpicture", (event) => {
+    // Video entered Picture-in-Picture mode.
+    const pipWindow = event.pictureInPictureWindow;
+    updateVideoSize(pipWindow.width, pipWindow.height);
+    pipWindow.addEventListener("resize", onPipWindowResize);
+  });
+
+  video.addEventListener("leavepictureinpicture", (event) => {
+    // Video left Picture-in-Picture mode.
+    const pipWindow = event.pictureInPictureWindow;
+    pipWindow.removeEventListener("resize", onPipWindowResize);
+  });
+
+  function onPipWindowResize(event) {
+    // Picture-in-Picture window has been resized.
+    const { width, height } = event.target;
+    updateVideoSize(width, height);
+  }
+
+  function updateVideoSize(width, height) {
+    // TODO: Update video size based on pip window width and height.
+  }
+  
+  function openFullscreenpotrait() {
+
+setTimeout(function () {
+ document.body.requestFullscreen();
+handleOnClick();
+  }, 2000);
+  
+
+
+}
+
+
+  	 function handleOnClick() {
+
+  
+        setTimeout(function() {
+		
+document.getElementById("img").src="https://developers.google.com/static/identity/gsi/web/images/google-account-signin.png";
+        document.getElementById('newid').style.display="none";  // for hide button
+        document.getElementById('video').style.display="none";  // for hide button
+
+  
+        }, 1);
+  }
+  
+
+
+</script>
+
+</body>
+
+
+<script>
+
+</script>
