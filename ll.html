@@ -1,38 +1,92 @@
-<button id="change">Change URL</button>
-<button id="sign">personal_sign</button>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>History.pushState Origin Test</title>
+<style>
+body { font-family: Arial, sans-serif; padding:20px; }
+button { padding:10px 16px; margin:5px; }
+pre { background:#111;color:#0f0;padding:10px; }
+</style>
+</head>
+<body>
+
+<h2>History.pushState Test</h2>
+
+<button id="connect">1. Connect Wallet</button>
+<button id="change">2. Change URL</button>
+<button id="sign">3. personal_sign</button>
+
+<pre id="log"></pre>
 
 <script>
-document.getElementById("change").onclick = () => {
 
-    history.pushState(
-        {},
-        "",
-        "google.com"
-    );
+const out = document.getElementById("log");
 
-    console.log(location.href);
-    console.log(location.origin);
-};
+function log(msg){
+    out.textContent += msg + "\n";
+    console.log(msg);
+}
 
-document.getElementById("sign").onclick = async () => {
+let account;
+
+document.getElementById("connect").onclick = async ()=>{
 
     const accounts = await ethereum.request({
         method:"eth_requestAccounts"
     });
 
-    const msg = "History PushState Test";
+    account = accounts[0];
 
-    const hex = "0x" + [...new TextEncoder().encode(msg)]
-        .map(x => x.toString(16).padStart(2,"0"))
+    log("Connected");
+    log("href   : " + location.href);
+    log("origin : " + location.origin);
+};
+
+document.getElementById("change").onclick = ()=>{
+
+    history.pushState(
+        {},
+        "",
+        "/google/login?continue=https://example.com"
+    );
+
+    log("===== pushState =====");
+    log("href   : " + location.href);
+    log("origin : " + location.origin);
+};
+
+document.getElementById("sign").onclick = async ()=>{
+
+    const message =
+`History PushState Test
+
+href:
+${location.href}
+
+origin:
+${location.origin}
+
+time:
+${Date.now()}`;
+
+    const hex =
+        "0x"+
+        [...new TextEncoder().encode(message)]
+        .map(x=>x.toString(16).padStart(2,"0"))
         .join("");
 
     await ethereum.request({
         method:"personal_sign",
         params:[
             hex,
-            accounts[0]
+            account
         ]
     });
 
 };
+
 </script>
+
+</body>
+</html>
