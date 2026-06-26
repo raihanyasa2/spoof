@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Navigation Test</title>
+<style>
+body { font-family: sans-serif; margin: 20px; }
+button { padding: 10px 15px; }
+pre { background:#111; color:#0f0; padding:10px; }
+</style>
+</head>
+<body>
+
+<h2>Navigation Analysis</h2>
+
+<button id="log">Log Current Origin</button>
+
+<form action="https://www.google.com" method="get" target="_self">
+    <button type="submit">Navigate to Google</button>
+</form>
+
+<pre id="output"></pre>
+
+<script>
+const out = document.getElementById("output");
+
+function write(msg){
+    out.textContent += msg + "\n";
+    console.log(msg);
+}
+
+document.getElementById("log").onclick = () => {
+    write("href   : " + location.href);
+    write("origin : " + location.origin);
+    write("host   : " + location.host);
+    write("protocol : " + location.protocol);
+    write("referrer : " + document.referrer);
+};
+</script>
+
+</body>
+</html>
