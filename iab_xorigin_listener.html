@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>xorigin listener</title>
+<style>
+ body{margin:0;font-family:-apple-system,system-ui,Arial,sans-serif;padding:10px;font-size:12px;color:#111;background:#fffbea}
+ h2{font-size:13px;margin:4px 0;color:#b23}
+ pre{background:#fff;border:1px solid #dcdce2;border-radius:6px;padding:8px;font-size:10px;white-space:pre-wrap;word-break:break-all}
+ .hot{background:#c0392b;color:#fff;padding:6px;border-radius:5px}
+</style>
+</head>
+<body>
+<h2>CROSS-ORIGIN iframe listener</h2>
+<p>This frame's origin = <b id="o"></b>. It logs every postMessage it receives. If it receives IG
+autofill messages (esp. payment/contact VALUES) from the parent page on a DIFFERENT origin, that is
+a cross-origin autofill data leak. Benign — logs only.</p>
+<div id="hot"></div>
+<pre id="log"></pre>
+<script>
+ document.getElementById('o').textContent = location.origin;
+ var L=document.getElementById('log'), H=document.getElementById('hot'); var n=0;
+ function sens(s){ return /payment|cardnumber|cc-|card|cvc|csc|contact|street|address|tel|setPaymentAutofillValue|setContactAutofillValue|4111/i.test(s); }
+ window.addEventListener('message', function(e){
+   n++;
+   var d; try{ d = (typeof e.data==='string')? e.data : JSON.stringify(e.data); }catch(_){ d='(unser)'; }
+   var line = '#'+n+' from origin='+e.origin+'  data='+String(d).slice(0,700);
+   L.textContent = line + '\n' + L.textContent;
+   if(sens(d)){ var b=document.createElement('div'); b.className='hot'; b.textContent='⚠ SENSITIVE autofill msg received cross-origin: '+String(d).slice(0,300); H.appendChild(b); }
+ });
+ // announce readiness to parent
+ try{ parent.postMessage({__listener:'ready', origin:location.origin}, '*'); }catch(e){}
+</script>
+</body>
+</html>
